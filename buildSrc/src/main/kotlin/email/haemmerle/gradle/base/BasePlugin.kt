@@ -74,8 +74,10 @@ class BasePlugin : Plugin<Project> {
 
     private fun registerInitTravisTask() {
         target.tasks.register("initTravis") {
-            val travisFileTemplate = this::class.java.getResource("/.travis.yml").readText(UTF_8)
-            target.file(".travis.yml").writeText(travisFileTemplate, UTF_8)
+            it.doLast {
+                val travisFileTemplate = this::class.java.getResource("/.travis.yml").readText(UTF_8)
+                target.file(".travis.yml").writeText(travisFileTemplate, UTF_8)
+            }
         }
     }
 }

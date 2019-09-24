@@ -1,14 +1,4 @@
 import com.jfrog.bintray.gradle.BintrayExtension
-import email.haemmerle.gradle.base.BasePlugin
-
-buildscript {
-    repositories {
-        maven { url = uri("https://dl.bintray.com/mhmmerle/snapshots") }
-    }
-    dependencies {
-        classpath("email.haemmerle.gradle:base-plugin:0.0.3")
-    }
-}
 
 group = "email.haemmerle.gradle"
 description = "Gradle base plugin for kotlin projects and the CI chain github -> travis -> bintray"
@@ -16,8 +6,8 @@ description = "Gradle base plugin for kotlin projects and the CI chain github ->
 plugins {
     `java-gradle-plugin`
     id("com.gradle.build-scan").version("2.4.2")
+    id("email.haemmerle.baseplugin").version("0.0.3-2-g9579648")
 }
-apply<BasePlugin>()
 
 gradlePlugin {
     plugins {

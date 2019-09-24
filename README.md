@@ -4,16 +4,21 @@ Gradle base plugin for kotlin projects and the CI chain **github -> travis -> bi
 
 ## Apply the Plugin
 
+settings.gradle.kts
 ```
-buildscript {
-    repositories {
-        maven { url = uri("https://dl.bintray.com/mhmmerle/snapshots") }
-    }
-    dependencies {
-        classpath("email.haemmerle.gradle:base-plugin:0.0.3")
+pluginManagement{
+    repositories{
+        gradlePluginPortal()
+        maven(url = "https://dl.bintray.com/mhmmerle/snapshots")
     }
 }
-apply<BasePlugin>()
+```
+
+build.gradle.kts
+```
+plugins {
+    id("email.haemmerle.baseplugin").version("0.0.4")
+}
 ```
 
 ## Versioning

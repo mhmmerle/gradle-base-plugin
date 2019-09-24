@@ -5,6 +5,9 @@ os: linux
 dist: trusty
 jdk: oraclejdk8
 
+git:
+  depth: 50
+
 script:
   - ./gradlew bintrayUpload --scan -s
 

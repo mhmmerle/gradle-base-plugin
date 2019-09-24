@@ -1,1 +1,1 @@
-rootProject.name = "test-travis-ci"
+rootProject.name = "base-plugin-test"

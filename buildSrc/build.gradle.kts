@@ -1,17 +1,22 @@
-import com.jfrog.bintray.gradle.BintrayExtension
+import email.haemmerle.gradle.base.BasePlugin
+
+buildscript {
+    repositories {
+        maven { url = uri("https://dl.bintray.com/mhmmerle/snapshots") }
+    }
+    dependencies {
+        classpath("email.haemmerle.gradle:base-plugin:cb0ab8a")
+    }
+}
+
+group = "email.haemmerle.gradle"
+description = "Gradle base plugin for kotlin projects and the CI chain github -> travis -> bintray"
 
 plugins {
     `java-gradle-plugin`
-    id("org.jetbrains.kotlin.jvm").version("1.3.21")
-    `maven-publish`
-    id("com.jfrog.bintray").version("1.8.4")
-    id("com.palantir.git-version").version("0.12.2")
+    id("com.gradle.build-scan").version("2.4.2")
 }
-
-val gitVersion: groovy.lang.Closure<String> by extra
-version = gitVersion(mapOf("prefix" to "v-"))
-group = "email.haemmerle.gradle"
-description = "Gradle base plugin for kotlin projects and the CI chain github -> travis -> bintray"
+apply<BasePlugin>()
 
 gradlePlugin {
     plugins {
@@ -23,8 +28,7 @@ gradlePlugin {
 }
 
 repositories {
-    maven { url = uri("https://plugins.gradle.org/m2/") }
-    jcenter()
+    gradlePluginPortal()
 }
 
 dependencies {
@@ -37,31 +41,6 @@ dependencies {
 
     testImplementation("org.jetbrains.kotlin:kotlin-test")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit")
-}
-
-publishing {
-    publications {
-        create<MavenPublication>("maven") {
-            from(components["java"])
-        }
-    }
-}
-
-bintray {
-    user = System.getenv("BINTRAY_USER")
-    key = System.getenv("BINTRAY_KEY")
-
-    setPublications("maven")
-    publish = true
-
-    pkg(delegateClosureOf<BintrayExtension.PackageConfig> {
-        repo = "snapshots"
-        name = project.name
-        setLicenses("MIT")
-        vcsUrl = "https://github.com/mhmmerle/test-travis-ci.git"
-        websiteUrl = "https://github.com/mhmmerle/test-travis-ci"
-        issueTrackerUrl = "https://github.com/mhmmerle/test-travis-ci/issues"
-    })
 }
 
 buildScan {

@@ -10,8 +10,8 @@ repositories {
     jcenter()
 }
 
-val gitVersion: groovy.lang.Closure<*> by extra
-version = gitVersion()
+val gitVersion: groovy.lang.Closure<String> by extra
+version = gitVersion(mapOf ("prefix" to "v-"))
 group = "email.haemmerle.test"
 
 dependencies {

@@ -6,7 +6,7 @@ package email.haemmerle.test
 class App {
     val greeting: String
         get() {
-            return "Hello world."
+            return "Hello world!"
         }
 }
 

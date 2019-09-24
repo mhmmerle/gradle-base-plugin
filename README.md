@@ -10,7 +10,7 @@ buildscript {
         maven { url = uri("https://dl.bintray.com/mhmmerle/snapshots") }
     }
     dependencies {
-        classpath("email.haemmerle.gradle:base-plugin:cb0ab8a")
+        classpath("email.haemmerle.gradle:base-plugin:0.0.3")
     }
 }
 
@@ -33,3 +33,10 @@ For releasing a version create and push tags in the following format:
  
  Make sure to register the api key in bintray and register the variables in travis.
  
+ ## CI Travis Build
+ 
+Create the travis file with the following command:
+
+```
+./gradlew initTravis
+```

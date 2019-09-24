@@ -6,9 +6,15 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.publish.maven.MavenPublication
+import kotlin.text.Charsets.UTF_8
 
 class BasePlugin : Plugin<Project> {
     override fun apply(target: Project) {
+        target.tasks.register("initTravis") {
+            val travisFileTemplate = this::class.java.getResource("/.travis.yml").readText(UTF_8)
+            target.file(".travis.yml").writeText(travisFileTemplate, UTF_8)
+        }
+
         target.plugins.apply {
             apply( "org.jetbrains.kotlin.jvm")
             apply("maven-publish")
@@ -16,15 +22,18 @@ class BasePlugin : Plugin<Project> {
             apply("com.palantir.git-version")
             apply("com.gradle.build-scan")
         }
+
         val gitVersionClosure = target.extensions.extraProperties.get("gitVersion")
         if (gitVersionClosure is Closure<*>) {
             target.version = gitVersionClosure.call(mapOf("prefix" to "v-"))
         }
+
         target.repositories.apply {
             mavenLocal()
             mavenCentral()
             jcenter()
         }
+
         target.extensions.configure(PublishingExtension::class.java) { publishing ->
             publishing.publications {  publications ->
                 publications.create("maven", MavenPublication::class.java) { publication  : MavenPublication ->
@@ -32,6 +41,7 @@ class BasePlugin : Plugin<Project> {
                 }
             }
         }
+
         target.extensions.configure(BintrayExtension::class.java) { bintray ->
             bintray.user = System.getenv("BINTRAY_USER")
             bintray.key = System.getenv("BINTRAY_KEY")

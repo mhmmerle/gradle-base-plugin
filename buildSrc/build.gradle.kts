@@ -5,7 +5,7 @@ buildscript {
         maven { url = uri("https://dl.bintray.com/mhmmerle/snapshots") }
     }
     dependencies {
-        classpath("email.haemmerle.gradle:base-plugin:cb0ab8a")
+        classpath("email.haemmerle.gradle:base-plugin:0.0.3")
     }
 }
 

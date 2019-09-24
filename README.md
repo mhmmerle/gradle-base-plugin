@@ -13,7 +13,6 @@ buildscript {
         classpath("email.haemmerle.gradle:base-plugin:0.0.3")
     }
 }
-
 apply<BasePlugin>()
 ```
 

@@ -9,52 +9,73 @@ import org.gradle.api.publish.maven.MavenPublication
 import kotlin.text.Charsets.UTF_8
 
 class BasePlugin : Plugin<Project> {
+    private lateinit var target: Project
+
     override fun apply(target: Project) {
-        target.tasks.register("initTravis") {
-            val travisFileTemplate = this::class.java.getResource("/.travis.yml").readText(UTF_8)
-            target.file(".travis.yml").writeText(travisFileTemplate, UTF_8)
-        }
+        this.target = target
 
-        target.plugins.apply {
-            apply( "org.jetbrains.kotlin.jvm")
-            apply("maven-publish")
-            apply("com.jfrog.bintray")
-            apply("com.palantir.git-version")
-            apply("com.gradle.build-scan")
-        }
+        applyPlugins()
+        registerInitTravisTask()
+        setVersionFromGit()
+        applyDefaultMavenRepos()
+        configureMavenPublications()
+        configureBintrayPublication()
+    }
 
-        val gitVersionClosure = target.extensions.extraProperties.get("gitVersion")
-        if (gitVersionClosure is Closure<*>) {
-            target.version = gitVersionClosure.call(mapOf("prefix" to "v-"))
-        }
-
-        target.repositories.apply {
-            mavenLocal()
-            mavenCentral()
-            jcenter()
-        }
-
-        target.extensions.configure(PublishingExtension::class.java) { publishing ->
-            publishing.publications {  publications ->
-                publications.create("maven", MavenPublication::class.java) { publication  : MavenPublication ->
-                    publication.from(target.components.findByName("java"))
-                }
-            }
-        }
-
+    private fun configureBintrayPublication() {
         target.extensions.configure(BintrayExtension::class.java) { bintray ->
             bintray.user = System.getenv("BINTRAY_USER")
             bintray.key = System.getenv("BINTRAY_KEY")
-
             bintray.setPublications("maven")
             bintray.publish = true
-
             bintray.pkg.repo = "snapshots"
             bintray.pkg.name = target.name
             bintray.pkg.setLicenses("MIT")
             bintray.pkg.vcsUrl = "https://github.com/mhmmerle/${target.name}.git"
             bintray.pkg.websiteUrl = "https://github.com/mhmmerle/${target.name}"
             bintray.pkg.issueTrackerUrl = "https://github.com/mhmmerle/${target.name}/issues"
+        }
+    }
+
+    private fun configureMavenPublications() {
+        target.extensions.configure(PublishingExtension::class.java) { publishing ->
+            publishing.publications { publications ->
+                publications.create("maven", MavenPublication::class.java) { publication: MavenPublication ->
+                    publication.from(target.components.findByName("java"))
+                }
+            }
+        }
+    }
+
+    private fun applyDefaultMavenRepos() {
+        target.repositories.apply {
+            mavenLocal()
+            mavenCentral()
+            jcenter()
+        }
+    }
+
+    private fun setVersionFromGit() {
+        val gitVersionClosure = target.extensions.extraProperties.get("gitVersion")
+        if (gitVersionClosure is Closure<*>) {
+            target.version = gitVersionClosure.call(mapOf("prefix" to "v-"))
+        }
+    }
+
+    private fun applyPlugins() {
+        target.plugins.apply {
+            apply("org.jetbrains.kotlin.jvm")
+            apply("maven-publish")
+            apply("com.jfrog.bintray")
+            apply("com.palantir.git-version")
+            apply("com.gradle.build-scan")
+        }
+    }
+
+    private fun registerInitTravisTask() {
+        target.tasks.register("initTravis") {
+            val travisFileTemplate = this::class.java.getResource("/.travis.yml").readText(UTF_8)
+            target.file(".travis.yml").writeText(travisFileTemplate, UTF_8)
         }
     }
 }

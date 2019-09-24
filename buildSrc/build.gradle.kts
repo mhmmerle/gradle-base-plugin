@@ -1,3 +1,4 @@
+import com.jfrog.bintray.gradle.BintrayExtension
 import email.haemmerle.gradle.base.BasePlugin
 
 buildscript {
@@ -25,6 +26,10 @@ gradlePlugin {
             implementationClass = "email.haemmerle.gradle.base.BasePlugin"
         }
     }
+}
+
+extensions.getByType<BintrayExtension>().apply {
+    setPublications(publications.component1(), "basePluginPluginMarkerMaven")
 }
 
 repositories {

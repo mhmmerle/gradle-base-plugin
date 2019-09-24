@@ -1,4 +1,6 @@
-# test-travis-ci
+# Gradle Base Plugin
+
+Gradle base plugin for kotlin projects and the CI chain **github -> travis -> bintray**.
 
 ## Versioning
 

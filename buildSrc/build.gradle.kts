@@ -62,5 +62,9 @@ bintray {
         websiteUrl = "https://github.com/mhmmerle/test-travis-ci"
         issueTrackerUrl = "https://github.com/mhmmerle/test-travis-ci/issues"
     })
+}
 
+buildScan {
+    termsOfServiceUrl = "https://gradle.com/terms-of-service"
+    termsOfServiceAgree = "yes"
 }

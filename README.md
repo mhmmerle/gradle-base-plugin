@@ -21,6 +21,17 @@ plugins {
 }
 ```
 
+## Configure the Plugin
+
+build.gradle.kts
+```
+base {
+    username = "mhmmerle"
+}
+```
+
+* username: github username for creating links in bintray
+
 ## Versioning
 
 For releasing a version create and push tags in the following format:

@@ -14,7 +14,8 @@ class BasePlugin : Plugin<Project> {
     override fun apply(target: Project) {
         this.target = target
 
-        applyPlugins()
+        target.extensions.create("base", BaseExtension::class.java)
+
         registerInitTravisTask()
         setVersionFromGit()
         applyDefaultMavenRepos()
@@ -31,9 +32,6 @@ class BasePlugin : Plugin<Project> {
             bintray.pkg.repo = "snapshots"
             bintray.pkg.name = target.name
             bintray.pkg.setLicenses("MIT")
-            bintray.pkg.vcsUrl = "https://github.com/mhmmerle/${target.name}.git"
-            bintray.pkg.websiteUrl = "https://github.com/mhmmerle/${target.name}"
-            bintray.pkg.issueTrackerUrl = "https://github.com/mhmmerle/${target.name}/issues"
         }
     }
 
@@ -80,4 +78,16 @@ class BasePlugin : Plugin<Project> {
             }
         }
     }
+}
+
+class BaseExtension(val target: Project) {
+    var username : String = ""
+        set(value) {
+            field = value
+            target.extensions.configure(BintrayExtension::class.java) { bintray ->
+                bintray.pkg.vcsUrl = "https://github.com/${value}/${target.name}.git"
+                bintray.pkg.websiteUrl = "https://github.com/${value}/${target.name}"
+                bintray.pkg.issueTrackerUrl = "https://github.com/${value}/${target.name}/issues"
+            }
+        }
 }

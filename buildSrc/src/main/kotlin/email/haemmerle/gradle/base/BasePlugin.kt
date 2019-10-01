@@ -14,8 +14,9 @@ class BasePlugin : Plugin<Project> {
     override fun apply(target: Project) {
         this.target = target
 
-        target.extensions.create("base", BaseExtension::class.java)
+        target.extensions.add("email-haemmerle-base", BaseExtension(target))
 
+        applyPlugins()
         registerInitTravisTask()
         setVersionFromGit()
         applyDefaultMavenRepos()
@@ -80,7 +81,7 @@ class BasePlugin : Plugin<Project> {
     }
 }
 
-class BaseExtension(val target: Project) {
+open class BaseExtension(val target: Project) {
     var username : String = ""
         set(value) {
             field = value

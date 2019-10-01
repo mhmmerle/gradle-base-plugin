@@ -9,3 +9,7 @@ buildScan {
     termsOfServiceUrl = "https://gradle.com/terms-of-service"
     termsOfServiceAgree = "yes"
 }
+
+`email-haemmerle-base`{
+    username = "mhmmerle"
+}

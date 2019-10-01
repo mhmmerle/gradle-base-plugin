@@ -25,7 +25,7 @@ plugins {
 
 build.gradle.kts
 ```
-base {
+email-haemmerle-base {
     username = "mhmmerle"
 }
 ```

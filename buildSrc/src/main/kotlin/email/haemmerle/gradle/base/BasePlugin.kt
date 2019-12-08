@@ -6,6 +6,7 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.publish.maven.MavenPublication
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import kotlin.text.Charsets.UTF_8
 
 class BasePlugin : Plugin<Project> {
@@ -17,11 +18,18 @@ class BasePlugin : Plugin<Project> {
         target.extensions.add("email-haemmerle-base", BaseExtension(target))
 
         applyPlugins()
+        setKotlinJvmOptionTo18()
         registerInitTravisTask()
         setVersionFromGit()
         applyDefaultMavenRepos()
         configureMavenPublications()
         configureBintrayPublication()
+    }
+
+    private fun setKotlinJvmOptionTo18() {
+        target.tasks.withType(KotlinCompile::class.java) {
+            it.kotlinOptions.jvmTarget = "1.8"
+        }
     }
 
     private fun configureBintrayPublication() {

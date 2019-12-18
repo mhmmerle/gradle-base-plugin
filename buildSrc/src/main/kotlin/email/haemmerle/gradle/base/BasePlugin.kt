@@ -75,7 +75,6 @@ class BasePlugin : Plugin<Project> {
             apply("maven-publish")
             apply("com.jfrog.bintray")
             apply("com.palantir.git-version")
-            apply("com.gradle.build-scan")
         }
     }
 

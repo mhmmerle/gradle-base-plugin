@@ -29,7 +29,7 @@ repositories {
 dependencies {
     implementation(gradleApi())
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-    implementation("com.gradle:build-scan-plugin:2.4.2")
+    implementation("com.gradle:com.gradle:gradle-enterprise-gradle-plugin:3.1.1")
     implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.50")
     implementation("com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4")
     implementation("com.palantir.gradle.gitversion:gradle-git-version:0.12.2")

@@ -1,7 +1,7 @@
 import com.jfrog.bintray.gradle.BintrayExtension
 import groovy.lang.Closure
 
-description = "Gradle base plugin for kotlin projects and the CI chain github -> travis -> bintray"
+description = "Plugin implementation"
 
 plugins {
     `java-gradle-plugin`
@@ -18,14 +18,18 @@ val gitVersionClosure = extensions.extraProperties.get("gitVersion")
         }
 
 publishing { 
-    publications { 
-        create("maven", MavenPublication::class.java) { 
+    publications {
+        create<MavenPublication>("maven") {
             from(components.findByName("java"))
         }
     }
 }
 
-bintray { 
+bintray {
+    pkg.vcsUrl = "https://github.com/mhmmerle/${name}.git"
+    pkg.websiteUrl = "https://github.com/mhmmerle/${name}"
+    pkg.issueTrackerUrl = "https://github.com/mhmmerle/${name}/issues"
+
     user = System.getenv("BINTRAY_USER")
     key = System.getenv("BINTRAY_KEY")
     setPublications("maven")

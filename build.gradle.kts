@@ -1,15 +1,10 @@
 plugins {
-    id("email.haemmerle.baseplugin")
+//    id("email.haemmerle.baseplugin").version("0.0.4")
 }
 
 group = "email.haemmerle.test"
 description = "Project for testing the base plugin"
 
-buildScan {
-    termsOfServiceUrl = "https://gradle.com/terms-of-service"
-    termsOfServiceAgree = "yes"
-}
-
-`email-haemmerle-base`{
-    username = "mhmmerle"
-}
+//`email-haemmerle-base`{
+//    username = "mhmmerle"
+//}

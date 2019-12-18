@@ -1,5 +1,9 @@
-rootProject.name = "base-plugin-test"
-
+pluginManagement{
+    repositories{
+        gradlePluginPortal()
+        maven(url = "https://dl.bintray.com/mhmmerle/snapshots")
+    }
+}
 plugins {
     id("com.gradle.enterprise").version("3.1.1")
 }
@@ -11,4 +15,7 @@ gradleEnterprise {
     }
 }
 
-rootProject.name = "base-plugin"
+rootProject.name = "email.haemmerle.baseplugin"
+
+include("baseplugin")
+include("functionaltest")

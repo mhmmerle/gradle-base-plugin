@@ -4,6 +4,7 @@ pluginManagement{
         maven(url = "https://dl.bintray.com/mhmmerle/snapshots")
     }
 }
+
 plugins {
     id("com.gradle.enterprise").version("3.1.1")
 }

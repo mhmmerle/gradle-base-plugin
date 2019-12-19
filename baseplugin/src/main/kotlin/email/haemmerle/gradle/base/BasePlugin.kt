@@ -42,7 +42,6 @@ class BasePlugin : Plugin<Project> {
         target.extensions.configure(BintrayExtension::class.java) { bintray ->
             bintray.user = System.getenv("BINTRAY_USER")
             bintray.key = System.getenv("BINTRAY_KEY")
-            bintray.setPublications("maven")
             bintray.publish = true
             bintray.pkg.repo = "snapshots"
             bintray.pkg.name = target.name

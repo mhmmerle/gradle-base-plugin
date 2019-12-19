@@ -3,6 +3,7 @@ package email.haemmerle.gradle.base
 import com.jfrog.bintray.gradle.BintrayExtension
 import groovy.lang.Closure
 import org.gradle.api.Plugin
+import org.gradle.kotlin.dsl.*
 import org.gradle.api.Project
 import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.publish.maven.MavenPublication
@@ -33,6 +34,11 @@ class BasePlugin : Plugin<Project> {
     }
 
     private fun configureBintrayPublication() {
+        target.extensions.getByType<PublishingExtension>().publications.configureEach { publication ->
+            target.extensions.configure(BintrayExtension::class.java) { bintray ->
+                bintray.setPublications( *listOf<String>(*bintray.publications, publication.name).distinct().toTypedArray() )
+            }
+        }
         target.extensions.configure(BintrayExtension::class.java) { bintray ->
             bintray.user = System.getenv("BINTRAY_USER")
             bintray.key = System.getenv("BINTRAY_KEY")

@@ -18,14 +18,9 @@ gradlePlugin {
     }
 }
 
-publishing.publications.configureEach {
-    bintray {
-        setPublications( *listOf<String>(*publications, name).distinct().toTypedArray() )
-    }
-}
-
 dependencies {
     implementation(gradleApi())
+    implementation(gradleKotlinDsl())
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.61")
     implementation("com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4")

@@ -34,18 +34,19 @@ class BasePlugin : Plugin<Project> {
     }
 
     private fun configureBintrayPublication() {
-        target.extensions.getByType<PublishingExtension>().publications.configureEach { publication ->
-            target.extensions.configure(BintrayExtension::class.java) { bintray ->
-                bintray.setPublications( *listOf<String>(*bintray.publications, publication.name).distinct().toTypedArray() )
-            }
-        }
         target.extensions.configure(BintrayExtension::class.java) { bintray ->
             bintray.user = System.getenv("BINTRAY_USER")
             bintray.key = System.getenv("BINTRAY_KEY")
             bintray.publish = true
+            bintray.setPublications("maven")
             bintray.pkg.repo = "snapshots"
             bintray.pkg.name = target.name
             bintray.pkg.setLicenses("MIT")
+        }
+        target.extensions.getByType<PublishingExtension>().publications.configureEach { publication ->
+            target.extensions.configure(BintrayExtension::class.java) { bintray ->
+                bintray.setPublications( *listOf<String>(*bintray.publications, publication.name).distinct().toTypedArray() )
+            }
         }
     }
 

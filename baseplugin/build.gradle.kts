@@ -18,11 +18,11 @@ gradlePlugin {
     }
 }
 
-
-extensions.getByType<BintrayExtension>().apply {
-    setPublications(publications.component1(), "basePluginPluginMarkerMaven")
+publishing.publications.configureEach {
+    bintray {
+        setPublications( *listOf<String>(*publications, name).distinct().toTypedArray() )
+    }
 }
-
 
 dependencies {
     implementation(gradleApi())
